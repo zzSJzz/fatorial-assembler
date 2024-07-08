@@ -1,0 +1,22 @@
+addi $t0, $zero, 5 			                  # Setando o endereço e setando o valor a achar a fatorial
+add $t9, $t0, $zero 			                # Setando o endereço do Contador interno, sera decrescido ao decorrer dos loops
+add $t1, $t0, $zero 		                	# Setando o endereço do resultado da fatorial, é o número final
+addi $t5, $zero, 1 		                  	# Constante do valor 1, usada para indentificar o fim do loop externo
+
+
+loop_externo:					
+	
+	add $t0, $t1, $zero 	                	# Passa para o registrador t0 o valor contido em t1
+	addi $t9, $t9, -1 	                  	# Decresce t9 em 1
+  add $t8, $t9, $zero                 		# Passa para t8 o valor contido em t9
+  beq $t9, $t5, end	                     	# Compara se o valor contido em t9 é igual a t5, se for passa para a end, senão, continua para o loop interno
+
+loop_interno:
+
+	add $t1, $t1, $t0	                    	# Soma o valor contido em t1 com t0, e aloca em t1
+	addi $t8, $t8, -1	                    	# Soma o valor contido em t8 com o valor imediato -1, decrescendo o contador interno
+	beq $t8, $t5, loop_externo            	# Compara o valor contido em t8 com t5, se forem iguais, seta um jump para o var "loop externo"
+
+j loop_interno				                    #Jump do loop_interno, realizando o ciclo de loops internos
+
+end: 					                            #fim do código
