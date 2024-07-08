@@ -1,0 +1,106 @@
+#   $t2: localizacao do 'Digite um numero: ' no stack 
+#   $t3: localizacao do 'Fatorial: ' no stack  
+
+# Aloca “ Digite um numero: “ no topo do stack 
+
+addiu $sp, $sp, -18 
+addi $t9, $zero, 68 # 'D' 
+sb $t9, 0($sp) 
+addi $t9, $zero, 105 # 'i' 
+sb $t9, 1($sp) 
+addi $t9, $zero, 103 # 'g' 
+sb $t9, 2($sp) 
+addi $t9, $zero, 105 # 'i' 
+sb $t9, 3($sp) 
+addi $t9, $zero, 116 # 't' 
+sb $t9, 4($sp) 
+addi $t9, $zero, 101 # 'e' 
+sb $t9, 5($sp) 
+addi $t9, $zero, 32 # ' ' 
+sb $t9, 6($sp) 
+addi $t9, $zero, 117 # 'u' 
+sb $t9, 7($sp) 
+addi $t9, $zero, 109 # 'm' 
+sb $t9, 8($sp) 
+addi $t9, $zero, 32 # ' ' 
+sb $t9, 9($sp) 
+addi $t9, $zero, 110 # 'n' 
+sb $t9, 10($sp) 
+addi $t9, $zero, 117 # 'u' 
+sb $t9, 11($sp) 
+addi $t9, $zero, 109 # 'm' 
+sb $t9, 12($sp) 
+addi $t9, $zero, 101 # 'e' 
+sb $t9, 13($sp) 
+addi $t9, $zero, 114 # 'r' 
+sb $t9, 14($sp) 
+addi $t9, $zero, 111 # 'o' 
+sb $t9, 15($sp) 
+addi $t9, $zero, 58 # ':' 
+sb $t9, 16($sp) 
+sb $zero, 17($sp) # '' 
+
+addiu $t2, $sp, 0
+
+# Aloca " Fatorial: " no topo do stack
+addiu $sp, $sp, -30
+addi $t9, $zero, 70 # 'F'
+sb $t9, 0($sp)
+addi $t9, $zero, 97 # 'a'
+sb $t9, 1($sp)
+addi $t9, $zero, 116 # 't'
+sb $t9, 2($sp)
+addi $t9, $zero, 111 # 'o'
+sb $t9, 3($sp)
+addi $t9, $zero, 114 # 'r'
+sb $t9, 4($sp)
+addi $t9, $zero, 105 # 'i'
+sb $t9, 5($sp)
+addi $t9, $zero, 97 # 'a'
+sb $t9, 6($sp)
+addi $t9, $zero, 108 # 'l'
+sb $t9, 7($sp)
+addi $t9, $zero, 58 # ':'
+sb $t9, 8($sp)
+addi $t9, $zero, 32 # ' '
+sb $t9, 9($sp)
+sb $zero, 10($sp) # ''
+
+addiu $t3, $sp, 0
+
+addi $a0, $t2, 0
+addi $v0, $zero, 51
+syscall
+
+
+addu $t0, $zero, $a0 			    # Setando o endereço e setando o valor a achar a fatorial
+add $t9, $t0, $zero 			    # Setando o endereço do Contador interno, sera decrescido ao decorrer dos loops
+add $t1, $t0, $zero 			    # Setando o endereço do resultado da fatorial, é o número final
+addi $t5, $zero, 1 			    	# Constante do valor 1, usada para indentificar o fim do loop externo
+
+
+loop_externo:					
+	
+	add $t0, $t1, $zero 	    	# Passa para o registrador t0 o valor contido em t1
+	addi $t9, $t9, -1 		    	# Decresce t9 em 1
+  add $t8, $t9, $zero 		    # Passa para t8 o valor contido em t9
+  beq $t9, $t5, end			      # Compara se o valor contido em t9 é igual a t5, se for passa para a end, senão, continua para o loop interno
+
+loop_interno:
+
+	add $t1, $t1, $t0			      # Soma o valor contido em t1 com t0, e aloca em t1
+	addi $t8, $t8, -1		    	  # Soma o valor contido em t8 com o valor imediato -1, decrescendo o contador interno
+	beq $t8, $t5, loop_externo	# Compara o valor contido em t8 com t5, se forem iguais, seta um jump para o var "loop externo"
+
+j loop_interno				      	#Jump do loop_interno, realizando o ciclo de loops internos
+
+end: 					            		#fim da lógica para formar o fatorial
+
+
+addi $a0, $t3, 0              # 'Fatorial: '
+addi $a1, $t1, 0              # O valor do fatorial
+addi $v0, $zero, 56
+syscall
+
+
+END:
